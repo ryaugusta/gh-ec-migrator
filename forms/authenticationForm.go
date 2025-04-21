@@ -59,7 +59,7 @@ func AuthenticationForm() {
 		if token == "" {
 			err := godotenv.Load()
 			if err != nil {
-				log.Fatal("[ERROR]: migrator-cli expects 'GH_TOKEN' env variable to be set")
+				log.Fatal("[ERROR]: the ec-migrator expects 'GH_TOKEN' env variable to be set")
 			}
 		}
 
