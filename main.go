@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ryaugusta/gh-ec-migrator/cmd/forms"
+	"github.com/ryaugusta/gh-ec-migrator/forms"
 )
 
 func main() {
