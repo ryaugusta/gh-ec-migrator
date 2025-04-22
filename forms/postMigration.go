@@ -31,7 +31,7 @@ func PostMigration() {
 	case true:
 		selectActivity()
 	case false:
-		log.Fatal("Not continuing with post-migration activities. Goodbye!")
+		log.Fatal("[WARN] Not continuing with post-migration activities. Goodbye!")
 	}
 }
 
@@ -333,7 +333,7 @@ func addUserCollaborators(choices []string) {
 			// run reclaim mannequin process
 			reclaimMannequins()
 		case false:
-			log.Fatalf("Nothing left to do. Goodbye!")
+			log.Fatalf("[INFO] Nothing left to do. Goodbye!")
 		}
 	}
 }

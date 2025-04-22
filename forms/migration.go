@@ -13,7 +13,7 @@ import (
 )
 
 func Migration() {
-	confirm := huh.NewForm(
+	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewConfirm().
 				Key("done").
@@ -31,7 +31,7 @@ func Migration() {
 		),
 	).WithTheme(huh.ThemeDracula()).WithHeight(TerminalHeightHelper() - 5)
 
-	if err := confirm.Run(); err != nil {
+	if err := form.Run(); err != nil {
 		if err == huh.ErrUserAborted {
 			log.Fatal("User aborted the program")
 		}
@@ -94,6 +94,6 @@ func Migration() {
 	}
 	sp.Action(upg).Run()
 	sp.Action(migration).Run()
-	// start post migration confirmation
-	PostMigration()
+
+	PostMigration() // start post migration
 }
