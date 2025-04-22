@@ -90,6 +90,7 @@ func Migration() {
 		}
 		log.Println(success.Render("Migration successful!"))
 
+		// log the URL to the new repository
 	}
 	sp.Action(upg).Run()
 	sp.Action(migration).Run()
