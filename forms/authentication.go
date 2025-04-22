@@ -26,7 +26,7 @@ func AuthenticationForm() {
 
 	if err := form.Run(); err != nil {
 		if err == huh.ErrUserAborted {
-			log.Fatal("User aborted the program")
+			log.Fatal("[WARN] User aborted the program")
 		}
 		log.Fatalf("[ERROR]: %v", err)
 	}
@@ -42,7 +42,7 @@ func AuthenticationForm() {
 					Validate(func(s string) error {
 						client = github.NewClient(nil).WithAuthToken(token)
 						if token == "" {
-							return fmt.Errorf("the token cannot be empty")
+							return fmt.Errorf("[ERROR] the token cannot be empty")
 						}
 						return nil
 					}),
@@ -65,7 +65,6 @@ func AuthenticationForm() {
 
 		token = os.Getenv("GH_TOKEN")
 		client = github.NewClient(nil).WithAuthToken(token)
-		// log.Print("token set successfully")
 
 		OrganizationSelection()
 	}

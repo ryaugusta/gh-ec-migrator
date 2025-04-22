@@ -13,7 +13,7 @@ import (
 )
 
 func Migration() {
-	confirm := huh.NewForm(
+	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewConfirm().
 				Key("done").
@@ -31,18 +31,18 @@ func Migration() {
 		),
 	).WithTheme(huh.ThemeDracula()).WithHeight(TerminalHeightHelper() - 5)
 
-	if err := confirm.Run(); err != nil {
+	if err := form.Run(); err != nil {
 		if err == huh.ErrUserAborted {
-			log.Fatal("User aborted the program")
+			log.Fatal("[WARN] User aborted the program")
 		}
-		log.Fatalf("[ERROR]: %v", err)
+		log.Fatalf("[ERROR] %v", err)
 	}
 
 	if !migrate {
 		if err == huh.ErrUserAborted {
-			log.Fatal("User aborted the program")
+			log.Fatal("[WARN] User aborted the program")
 		}
-		log.Fatalf("[ERROR]: %v", err)
+		log.Fatalf("[ERROR] %v", err)
 	}
 
 	sp = spinner.New().Context(ctx).Title("Starting Migration...")
@@ -50,9 +50,9 @@ func Migration() {
 		sp.Title("Upgrading extension...")
 		out, err := exec.Command("gh", "extension", "upgrade", "gei").Output()
 		if err != nil {
-			log.Fatalf("Error upgrading extension: %v\n Output: %v", err, out)
+			log.Fatalf("[ERROR] Error upgrading extension: %v\n Output: %v", err, out)
 			if err == huh.ErrUserAborted {
-				log.Fatal("User aborted the program")
+				log.Fatal("[WARN] User aborted the program")
 			}
 		}
 	}
@@ -61,13 +61,13 @@ func Migration() {
 		sp.Title("Migration in progress...")
 		// write log to:
 		if err := os.Truncate("m.log", 0); err != nil {
-			log.Printf("Failed to truncate: %v\n", err)
-			log.Println("Creating File...")
+			log.Printf("[ERROR] Failed to truncate: %v\n", err)
+			log.Println("[INFO] Creating File...")
 		}
 		f, err := os.OpenFile("m.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0777) // create, append, update perms to file
 
 		if err != nil {
-			log.Fatalf("Error opening file: %v", err)
+			log.Fatalf("[ERROR] Error opening file: %v", err)
 		}
 		mw := io.MultiWriter(f, os.Stdout)
 
@@ -82,17 +82,16 @@ func Migration() {
 		cmd.Stdout = mw
 		err = cmd.Run()
 		if err != nil {
-			log.Fatalf(failure.Render("Migration failed: %v"), err)
+			log.Fatalf(failure.Render("[ERROR] Migration failed: %v"), err)
 		}
 		readLog, _ := os.ReadFile("m.log")
 		if strings.Contains(string(readLog), "fail") {
-			log.Fatalf(failure.Render("Migration failed: %v"), err)
+			log.Fatalf(failure.Render("[ERROR] Migration failed: %v"), err)
 		}
-		log.Println(success.Render("Migration successful!"))
-
+		log.Println(success.Render("[INFO] Migration successful!"))
+		log.Printf("[INFO] View your migrated repository:\nhttps://github.com/%v/%v", tO, tR)
 	}
 	sp.Action(upg).Run()
 	sp.Action(migration).Run()
-	// start post migration confirmation
-	PostMigration()
+	PostMigration() // start post migration
 }
