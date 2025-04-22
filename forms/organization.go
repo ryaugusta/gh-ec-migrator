@@ -17,11 +17,11 @@ func OrganizationSelection() {
 					orgs, _, err := client.Organizations.List(ctx, "", nil)
 					if err != nil {
 						if err == huh.ErrUserAborted {
-							log.Fatal("User aborted the program")
+							log.Fatal("[WARN] User aborted the program")
 						}
 
 						fmt.Println(err)
-						log.Fatal("quitting program")
+						log.Fatal("[INFO] quitting program")
 					}
 
 					for _, org := range orgs {
@@ -48,7 +48,7 @@ func OrganizationSelection() {
 					}
 
 					if sO == tO {
-						return fmt.Errorf("the source and target organizations have to be different")
+						return fmt.Errorf("[WARN] the source and target organizations have to be different")
 					}
 
 					return nil
@@ -58,9 +58,9 @@ func OrganizationSelection() {
 
 	if err := form.Run(); err != nil {
 		if err == huh.ErrUserAborted {
-			log.Fatal("User aborted the program")
+			log.Fatal("[WARN] User aborted the program")
 		}
-		log.Fatalf("[ERROR]: %v", err)
+		log.Fatalf("[ERROR] %v", err)
 	}
 	RepositorySelection()
 }
