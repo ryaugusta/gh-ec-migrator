@@ -50,7 +50,7 @@ func AuthenticationForm() {
 		).WithWidth(80)
 		if err := form.Run(); err != nil {
 			if err == huh.ErrUserAborted {
-				log.Fatal("User aborted the program")
+				log.Fatal("[WARN] User aborted the program")
 			}
 			log.Fatalf("[ERROR]: %v", err)
 		}
@@ -59,7 +59,7 @@ func AuthenticationForm() {
 		if token == "" {
 			err := godotenv.Load()
 			if err != nil {
-				log.Fatal("[ERROR]: the ec-migrator expects 'GH_TOKEN' env variable to be set")
+				log.Fatal("[ERROR] the ec-migrator expects 'GH_TOKEN' env variable to be set")
 			}
 		}
 

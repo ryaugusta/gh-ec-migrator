@@ -28,4 +28,12 @@ gh ec-migrator
 > The token should be authorized in both the target & source organizations
 ---
 > [!IMPORTANT]
-> This utility is currently in private `beta`
+> This utility is currently in `beta`
+
+## Contributing
+
+Contributions are welcomed from the community.
+
+**Want a new feature?**  Open an issue with your feature request.
+
+**Want to contribute?** Fork this repository and open a pull request!
